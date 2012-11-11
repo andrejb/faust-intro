@@ -1,0 +1,74 @@
+Quick Start
+===========
+
+http://faust.grame.fr/index.php/documentation/quick-start
+
+- Real time signal processing and synthesis
+- High performance.
+- Variedade de plataformas.
+- FaustWorks - IDE
+  - Diferentes frames: diagrama de blocos, código em faust, código gerado,
+    mensagens de erro.
+  - Menus (arquitetura e modo).
+- Programa em Faust: lista de statements.
+  - declarations, imports, definitions, documentation tags, comments.
+  - "process" == main
+  - bibliotecas
+  - definições: associa identificador com uma expressão. alias. durante a
+    avaliação, são substituídos por suas definições. É equivalente usar
+    identificadores ou sua definição.
+    multiple definitions of same identifier not allowed unless they are
+    pattern mathing based.
+- Operações de composição.
+  - , paralelo
+    - exemplo:
+      A = +(1);
+      B = *(0.5);
+      C = /(3);
+      process = A,B,C
+  - : sequencial
+    process = (A:B:C),(C:B:A);
+  - <: split
+    - numero de inputs tem que ser um multiplo do numero de outputs
+    process = (10,20) <: (+,*,/);
+  - :> merge
+    process = (10,20)<:(+,*,/,0):>+;
+  - ~ recursive
+    process = ~;
+- Iterações
+  - par()
+    process = par(i,4,*(i));
+  - seq()
+  - sum()
+  - prod()
+- Operadores: +, -, *, /, %, ^, |, &, xor, >>, <<, >, <, >=, <=, ==, !=.
+- Time expressions:
+  - delay '
+  - @(x)
+- Environment expressions:
+  - with
+  - environment
+  - import
+  - component
+- Foreign functions:
+  asinh = ffunction(float asinh(float), <math.h>, "");
+  fconstant
+  fvariable
+- Tipos: float, int.
+- Pattern matching:
+  p(0) = 0.1;
+  p(1) = 0;
+  p(2) = 0.2;
+  process = par(i,3,p(i));
+  - Exemplo: banco de filtros
+    import("filter.lib");
+    p(0) = 0.1;
+    p(1) = 0;
+    p(2) = 0.2;
+    process = _<:par(i,3,pole(p(i))):>_;
+- Primitivas:
+  - rdtable, wrtable
+  - select2, select3
+- Interface gráfica
+  
+

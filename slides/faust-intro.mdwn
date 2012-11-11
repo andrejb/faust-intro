@@ -1,0 +1,33 @@
+% Introdução a Faust
+% 
+% 22/11/2012
+
+Faust - Functional AUdio STream
+===============================
+
+  * É uma linguagem de especificação (de *processadores de sinais*).
+  * Compilada: FAUST -> C++ -> binários executáveis.
+  * Opera no nível amostral.
+  * Semântica simples e bem definida.
+  * Orientada a diagramas de bloco utilizando programação funcional.
+  * Pode ser utilizado em diversas "arquiteturas".
+  * Descreve um processador de sinais.
+
+
+Operadores
+==========
+
+  * : (composição)
+  * , (paralelismo)
+  * ~
+  * <:
+  * :>
+
+FaustWorks
+==========
+
+FaustWorks é um IDE para a linguagem de programação dsp Faust.
+
+Atenção: FaustWorks é altamente experimental.
+
+> git clone git://faudiostream.git.sourceforge.net/gitroot/faudiostream/FaustWorks

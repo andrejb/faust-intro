@@ -1,0 +1,3 @@
+[submodule "FaustWorks"]
+	path = FaustWorks
+	url = git://faudiostream.git.sourceforge.net/gitroot/faudiostream/FaustWorks

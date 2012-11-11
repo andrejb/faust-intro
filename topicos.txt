@@ -1,0 +1,12 @@
+- Uma álgebra de blocos.
+  - Primitivas.
+  - Operadores de composição.
+- FaustWorks.
+  - Obtenção e compilação.
+  - Diferentes telas.
+- Compilação.
+- Exemplos:
+  - oscilador de onda quadrada.
+  - oscilador senoidal.
+  - gerador de ruído.
+
