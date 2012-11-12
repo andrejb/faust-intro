@@ -1,15 +1,31 @@
-1 Álgebra de blocos.
+Parte 1: A linguagem
+====================
+
+Álgebra de blocos
+-----------------
+
+  - Motivação.
   - Sintaxe.
   - Primitivas.
   - Operadores de composição.
   - Iterações.
   - Time delay.
-- FaustWorks.
+
+FaustWorks
+----------
   - Obtenção e compilação.
   - Diferentes frames: diagrama de blocos, código em faust, código gerado,
-- Compilação para diferentes plataformas (pd, ladspa, etc).
-- Exemplos:
-  - oscilador de onda quadrada.
-  - oscilador senoidal.
-  - gerador de ruído.
+
+
+Parte 2: Exemplos
+=================
+
+Exemplo 1: Oscilador de onda quadrada
+-------------------------------------
+
+Exemplo 2: Oscilador senoidal
+-----------------------------
+
+Exemplo 3: gerador de ruído
+---------------------------
 
