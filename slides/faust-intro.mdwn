@@ -31,3 +31,28 @@ FaustWorks é um IDE para a linguagem de programação dsp Faust.
 Atenção: FaustWorks é altamente experimental.
 
 > git clone git://faudiostream.git.sourceforge.net/gitroot/faudiostream/FaustWorks
+
+
+Dependências para entender os exemplos
+======================================
+
+* Açúcar sintático.
+* GUI: hslider, vslider, button.
+* nentry
+
+Açúcar sintático
+================
+
+Operadores matemáticos podem ser usados de forma mais simples_:
+
+$A/B \leftrightarrow (A,B) : /$
+
+$/(A) \leftrightarrow ( __ ,A) : /$
+
+Exemplos
+========
+
+* Onda quadrada (programa em C).
+* Oscilador harmônico (alguma plataforma).
+* Karplus strong (pure data).
+
