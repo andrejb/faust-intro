@@ -91,50 +91,30 @@ Algumas opções interessantes:
     -norm   --normalized-form prints signals in normalized form and exits
 
 
-Exemplos
-========
-
-Exemplos
---------
-
-* Em C:
-    * Onda quadrada.
-    * Oscilador senoidal.
-* Em ALSA + GTK:
-    * karplus.
-    * freeverb.
-    * capture.
-    * dbmeter.
-    * echo.
-    * noise.
-    * multiband-filter.
-* Pure data:
-    * Karplus strong (pure data).
-
 
 Exemplo 1: Onda quadrada
 ========================
 
-Exemplo 1: Onda quadrada
----
+Onda quadrada: blocos básicos
+-----------------------------
 
 ![Um contador de 1 até N](./img/square-i.png)
 
-Exemplo 1: Onda quadrada
----
+Onda quadrada: blocos básicos
+-----------------------------
 
 ![Gerador de onda quadrada.](./img/square-process.png) 
 
-Exemplo 1: Onda quadrada
----
+Onda quadrada: sliders
+----------------------
 
 Elementos de interface gráfica:
 
     vslider(str, cur, min, max, step)
     hslider(str, cur, min, max, step)
 
-Exemplo 1: Onda quadrada
----
+Onda quadrada: código
+---------------------
 
 ~~~{.Javascript .numberLines}
 //     A square wave oscillator
@@ -146,8 +126,8 @@ i = +(1)~%(N):-(1); // 0,1,2...,n
 process = i,N*a : < : *(2) : -(1) ;
 ~~~
 
-Exemplo 1: Onda quadrada
----
+Onda quadrada: demo
+-------------------
 
 Demonstração:
 
@@ -157,34 +137,33 @@ Demonstração:
 Exemplo 2: Onda senoidal
 ========================
 
-Exemplo 2: Onda senoidal
----
+Onda senoidal: blocos básicos
+-----------------------------
 
 ![Tempo discreto: 0, 1, 2, 3, ...](./img/sineosc-time.png)
 
-Exemplo 2: Onda senoidal
----
+Onda senoidal: blocos básicos
+-----------------------------
 
 ![Forma de onda senoidal](./img/sineosc-sinwaveform.png)
 
-Exemplo 2: Onda senoidal
----
+Onda senoidal: blocos básicos
+-----------------------------
 
 ![Cálculo da fase](./img/sineosc-phase.png)
 
-Exemplo 2: Onda senoidal
----
+Onda senoidal: tabelas
+-----------------------------
 
 ![Definição de tabelas](./img/tables.png)
 
-Exemplo 2: Onda senoidal
----
+Onda senoidal: leitura de tabela
+--------------------------------
 
 ![Forma de onda senoidal](./img/sineosc-freq.png)
 
-
-Exemplo 2: Onda senoidal
----
+Onda senoidal: código
+---------------------
 
 ~~~{.Javascript .numberLines}
 //-----------------------------------------------
@@ -197,8 +176,8 @@ floor = ffunction(float floor (float), <math.h>, "");
 PI    = 3.1415926535897932385;
 ~~~
 
-Exemplo 2: Onda senoidal
----
+Onda senoidal: código
+---------------------
 
 ~~~{.Javascript .numberLines}
 // Oscillator definition
@@ -213,8 +192,8 @@ phase(freq) = freq/samplingfreq :
 osc(freq)   = phase(freq) : rdtable(tablesize,sinwaveform);
 ~~~
 
-Exemplo 2: Onda senoidal
----
+Onda senoidal: código
+---------------------
 
 ~~~{.Javascript .numberLines}
 // User interface
@@ -225,18 +204,57 @@ freq = hslider("freq", 400, 0, 15000, 0.1);
 process = osc(freq) * vol;
 ~~~
 
-Exemplo 2: Onda senoidal
----
+Onda senoidal: demo
+---------------------
 
 Demonstração:
 
-    ./plotdir/sineosc -freq 440 -n 44100 -volume 1
+    ./sineosc -freq 440 -n 44100 -volume 1
 
-Exemplo 3: freeverb
+Exemplo 3: Gerador de ruído aleatório
+=====================================
+
+Gerador de ruído aleatório: código
+----------------------------------
+
+~~~{.Javascript .numberLines}
+//-----------------------------------------------
+//          Two noises compared
+//-----------------------------------------------
+
+RANDMAX = 2147483647;
+
+random1 = ffunction(int random (), <stdlib.h>, "");
+noise1 = (random1 << 1) * (1.0/RANDMAX);
+
+random2 = (*(1103515245)+12345) ~ _ ;
+noise2 = random2 * (1.0/RANDMAX);
+
+compare(a,b) = (a*(1-button("Switch")) +
+                                b*button("Switch"));
+
+process = compare(noise1, noise2) *
+          hslider("volume", 0, 0, 1, 0.01) <: _,_  ;
+~~~
+
+Gerador de ruído aleatório: demo
+--------------------------------
+
+Demonstração: comparação de gráficos e som.
+
+Exemplo 4: Karplus Strong
+=========================
+
+Karplus Strong: demo
+--------------------
+
+Demonstração: tosco e bem feito.
+
+Exemplo 5: Freeverb
 ===================
 
-Exemplo 3: freeverb
----
+freeverb: código
+----------------
 
 ~~~{.Javascript .numberLines}
 monoReverb(fb1, fb2, damp, spread)  
@@ -256,11 +274,37 @@ monoReverb(fb1, fb2, damp, spread)
 		;
 ~~~
 
-Exemplo 3: freeverb
----
+Freeverb: código
+----------------
 
 ~~~{.Javascript .numberLines}
 stereoReverb(fb1, fb2, damp, spread)
 	= + <: 	monoReverb(fb1, fb2, damp, 0), monoReverb(fb1, fb2, damp, spread);
 ~~~
-			
+
+Freeverb: demo
+--------------
+
+Demonstração: FaustWorks e LADSPA.
+
+
+Conclusão
+=========
+
+Outros exemplos
+---------------
+
+* capture.
+* dbmeter.
+* echo.
+* noise.
+* multiband-filter.
+
+Fim!
+----
+
+Obrigado pela atenção!
+
+* Faust: http://faust.grame.fr/
+* Contato: {grodias,ajb}@ime.usp.br
+* Grupo de Computação Musical do IME/USP: http://compmus.ime.usp.br/
