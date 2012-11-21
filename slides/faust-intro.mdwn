@@ -1,9 +1,12 @@
 % Introdução a Faust
-% André J. Bianchi e Gilmar Dias
+% Gilmar Dias; André J. Bianchi
 % 22/11/2012
 
 Faust - Functional AUdio STream
 ===============================
+
+teste
+-----
 
   * É uma linguagem de especificação (de *processadores de sinais*).
   * Compilada: FAUST -> C++ -> binários executáveis.
@@ -30,7 +33,9 @@ FaustWorks é um IDE para a linguagem de programação dsp Faust.
 
 Atenção: FaustWorks é altamente experimental.
 
-> git clone git://faudiostream.git.sourceforge.net/gitroot/faudiostream/FaustWorks
+    git clone \
+    git://faudiostream.git.sourceforge.net/gitroot/faudiostream/FaustWorks
+
 
 
 Dependências para entender os exemplos
@@ -43,16 +48,195 @@ Dependências para entender os exemplos
 Açúcar sintático
 ================
 
-Operadores matemáticos podem ser usados de forma mais simples_:
+Operadores matemáticos podem ser usados de forma mais simples:
 
-$A/B \leftrightarrow (A,B) : /$
+    A/B  = (A,B) : /
+    /(A) = (_,A) : /
 
-$/(A) \leftrightarrow ( __ ,A) : /$
+Arquiteturas
+============
+
+* Alsa + {GTK,QT}
+* Csound
+* iPhone
+* jack {GTK,QT}
+* Ladspa
+* lv2
+* Max MSP
+* Octave
+* OSS
+* Pure Data
+* VST
+* ... e muitas outras.
+
+Faust na linha de comando
+=========================
+
+Algumas opções interessantes:
+
+    -tg     print the internal --task-graph in dot format file
+    -sg     print the internal --signal-graph in dot format file
+    -ps     print block-diagram --postscript file
+    -svg    print block-diagram --svg file
+    -mdoc   print --mathdoc of a Faust program in LaTeX format in a -mdoc directory
+    -vs <n> --vec-size <n> size of the vector (default 32 samples)
+    -omp    --openMP generate OpenMP pragmas, activates --vectorize option
+    -pl     --par-loop generate parallel loops in --openMP mode
+    -single use --single-precision-floats for internal computations (default)
+    -double use --double-precision-floats for internal computations
+    -quad   use --quad-precision-floats for internal computations
+    -norm   --normalized-form prints signals in normalized form and exits
+
 
 Exemplos
 ========
 
-* Onda quadrada (programa em C).
-* Oscilador harmônico (alguma plataforma).
-* Karplus strong (pure data).
+* Em C:
+    * Onda quadrada.
+    * Oscilador senoidal.
+* Em ALSA + GTK:
+    * karplus.
+    * freeverb.
+    * capture.
+    * dbmeter.
+    * echo.
+    * noise.
+    * multiband-filter.
+* Pure data:
+    * Karplus strong (pure data).
 
+
+Exemplo 1: Onda quadrada
+========================
+
+![Um contador de 1 até N](./img/square-i.png)
+
+Exemplo 1: Onda quadrada
+========================
+
+![Gerador de onda quadrada.](./img/square-process.png) 
+
+Exemplo 1: Onda quadrada
+========================
+
+Elementos de interface gráfica:
+
+    vslider(str, cur, min, max, step)
+    hslider(str, cur, min, max, step)
+
+Exemplo 1: Onda quadrada
+========================
+
+~~~{.Javascript .numberLines}
+//     A square wave oscillator
+//---------------------------------
+T = hslider("Period",1,0.1,100.,0.1); // Period (ms)
+N = 44100./1000.*T:int; // The period in samples
+a = hslider("Cyclic ratio",0.5,0,1,0.1); // Cyclic ratio
+i = +(1)~%(N):-(1); // 0,1,2...,n
+process = i,N*a : < : *(2) : -(1) ;
+~~~
+
+Exemplo 1: Onda quadrada
+========================
+
+Demonstração:
+
+    ./square -cyclicratio 0.5 -n 44100 -period 100
+
+
+Exemplo 2: Onda senoidal
+========================
+
+![Tempo discreto: 0, 1, 2, 3, ...](./img/sineosc-time.png)
+
+Exemplo 2: Onda senoidal
+========================
+
+![Forma de onda senoidal](./img/sineosc-sinwaveform.png)
+
+Exemplo 2: Onda senoidal
+========================
+
+![Definição de tabelas](./img/tables.png)
+
+
+Exemplo 2: Onda senoidal
+========================
+
+~~~{.Javascript .numberLines}
+//-----------------------------------------------
+//      Sinusoidal Oscillator
+//-----------------------------------------------
+// Mathematical functions & constants
+//------------------------------------
+sin   = ffunction(float sin (float), <math.h>, "");
+floor = ffunction(float floor (float), <math.h>, "");
+PI    = 3.1415926535897932385;
+~~~
+
+Exemplo 2: Onda senoidal
+========================
+
+
+~~~{.Javascript .numberLines}
+// Oscillator definition
+//--------------------------
+tablesize    = 40000 ;
+samplingfreq = 44100. ;
+time        = (+(1)~_) - 1; // O,1,2,3,...
+sinwaveform = time*(2*PI)/tablesize : sin;
+decimal     =  _ <: -(floor);
+phase(freq) = freq/samplingfreq :
+                  (+ : decimal) ~ _ : *(tablesize) : int ;
+osc(freq)   = phase(freq) : rdtable(tablesize,sinwaveform);
+~~~
+
+Exemplo 2: Onda senoidal
+========================
+
+~~~{.Javascript .numberLines}
+// User interface
+//----------------
+vol = hslider("volume", 0, 0, 1, 0.001);
+freq = hslider("freq", 400, 0, 15000, 0.1);
+//----------------
+process = osc(freq) * vol;
+~~~
+
+Exemplo 2: Onda senoidal
+========================
+
+Demonstração:
+
+    ./plotdir/sineosc -freq 440 -n 44100 -volume 1
+
+Exemplo 3: freeverb
+===================
+
+~~~{.Javascript .numberLines}
+monoReverb(fb1, fb2, damp, spread)  
+	= _ <:	comb(combtuningL1+spread, fb1, damp),
+			comb(combtuningL2+spread, fb1, damp),
+			comb(combtuningL3+spread, fb1, damp),
+			comb(combtuningL4+spread, fb1, damp),
+			comb(combtuningL5+spread, fb1, damp),
+			comb(combtuningL6+spread, fb1, damp),
+			comb(combtuningL7+spread, fb1, damp),
+			comb(combtuningL8+spread, fb1, damp) 
+		+>	
+		 	allpass (allpasstuningL1+spread, fb2)
+		:	allpass (allpasstuningL2+spread, fb2)
+		:	allpass (allpasstuningL3+spread, fb2)
+		:	allpass (allpasstuningL4+spread, fb2) 
+		;
+~~~
+
+Exemplo 3: freeverb
+===================
+
+~~~{.Javascript .numberLines}
+stereoReverb(fb1, fb2, damp, spread)
+	= + <: 	monoReverb(fb1, fb2, damp, 0), monoReverb(fb1, fb2, damp, spread);
+~~~
+			

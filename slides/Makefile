@@ -19,7 +19,6 @@ pdf: $(FILENAME).pdf
 $(PDF_PREFIX)/%.pdf: %.tex
 	pdflatex -output-directory=$(PDF_PREFIX) $^
 	pdflatex -output-directory=$(PDF_PREFIX) $^
-	pdflatex -output-directory=$(PDF_PREFIX) $^
 
 %.tex: %.mdwn
 	pandoc -f markdown -t beamer $(PANDOC_OPTS) $< > $@
@@ -34,4 +33,4 @@ clean-html:
 clean: clean-pdf clean-html
 
 wipe: clean
-	rm -f *.pdf
+	rm -f *.pdf *.tex
