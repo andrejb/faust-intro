@@ -1,7 +1,7 @@
 FILENAME = faust-intro
 HTML_PREFIX = html
 PDF_PREFIX = pdf
-PANDOC_OPTS = -s --toc -m --slide-level=1
+PANDOC_OPTS = -s --toc -m --slide-level=2
 TMP_EXTENSIONS = aux,log,nav,out,snm,tex,toc,vrb
 
 all: pdf html
@@ -21,7 +21,7 @@ $(PDF_PREFIX)/%.pdf: %.tex
 	pdflatex -output-directory=$(PDF_PREFIX) $^
 
 %.tex: %.mdwn
-	pandoc -f markdown -t beamer $(PANDOC_OPTS) $< > $@
+	pandoc -f markdown -t beamer --template faust-intro.beamer $(PANDOC_OPTS) $< > $@
 
 clean-pdf:
 	rm -rf $(PDF_PREFIX)/*

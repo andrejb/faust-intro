@@ -4,6 +4,9 @@ plot :
 	install -d plotdir
 	$(MAKE) DEST='plotdir/' ARCH='plot.cpp'  CXXFLAGS=$(CCFLAGS) -f Makefile.compile
 
+alsagtk :
+	install -d alsagtkdir
+	$(MAKE) DEST='alsagtkdir/' ARCH='alsa-gtk.cpp' LIB='-lpthread -lasound  `pkg-config --cflags --libs gtk+-2.0` $(OSCLIB) $(HTTPDLIB)'  CXXFLAGS=$(MYGCCFLAGS) -f Makefile.compile
 
 exemplo1:
 	./plotdir/square -cyclicratio 0.5 -n 44100 -period 100 > /tmp/square.txt

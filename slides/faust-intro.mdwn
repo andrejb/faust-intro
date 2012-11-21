@@ -2,11 +2,11 @@
 % Gilmar Dias; André J. Bianchi
 % 22/11/2012
 
-Faust - Functional AUdio STream
-===============================
+A linguagem
+===========
 
-teste
------
+Faust - Functional AUdio STream
+---
 
   * É uma linguagem de especificação (de *processadores de sinais*).
   * Compilada: FAUST -> C++ -> binários executáveis.
@@ -18,7 +18,7 @@ teste
 
 
 Operadores
-==========
+---
 
   * : (composição)
   * , (paralelismo)
@@ -28,6 +28,9 @@ Operadores
 
 FaustWorks
 ==========
+
+FaustWorks
+---
 
 FaustWorks é um IDE para a linguagem de programação dsp Faust.
 
@@ -39,14 +42,14 @@ Atenção: FaustWorks é altamente experimental.
 
 
 Dependências para entender os exemplos
-======================================
+---
 
 * Açúcar sintático.
 * GUI: hslider, vslider, button.
 * nentry
 
 Açúcar sintático
-================
+---
 
 Operadores matemáticos podem ser usados de forma mais simples:
 
@@ -54,7 +57,7 @@ Operadores matemáticos podem ser usados de forma mais simples:
     /(A) = (_,A) : /
 
 Arquiteturas
-============
+---
 
 * Alsa + {GTK,QT}
 * Csound
@@ -70,7 +73,7 @@ Arquiteturas
 * ... e muitas outras.
 
 Faust na linha de comando
-=========================
+---
 
 Algumas opções interessantes:
 
@@ -91,6 +94,9 @@ Algumas opções interessantes:
 Exemplos
 ========
 
+Exemplos
+--------
+
 * Em C:
     * Onda quadrada.
     * Oscilador senoidal.
@@ -109,15 +115,18 @@ Exemplos
 Exemplo 1: Onda quadrada
 ========================
 
+Exemplo 1: Onda quadrada
+---
+
 ![Um contador de 1 até N](./img/square-i.png)
 
 Exemplo 1: Onda quadrada
-========================
+---
 
 ![Gerador de onda quadrada.](./img/square-process.png) 
 
 Exemplo 1: Onda quadrada
-========================
+---
 
 Elementos de interface gráfica:
 
@@ -125,7 +134,7 @@ Elementos de interface gráfica:
     hslider(str, cur, min, max, step)
 
 Exemplo 1: Onda quadrada
-========================
+---
 
 ~~~{.Javascript .numberLines}
 //     A square wave oscillator
@@ -138,7 +147,7 @@ process = i,N*a : < : *(2) : -(1) ;
 ~~~
 
 Exemplo 1: Onda quadrada
-========================
+---
 
 Demonstração:
 
@@ -148,21 +157,34 @@ Demonstração:
 Exemplo 2: Onda senoidal
 ========================
 
+Exemplo 2: Onda senoidal
+---
+
 ![Tempo discreto: 0, 1, 2, 3, ...](./img/sineosc-time.png)
 
 Exemplo 2: Onda senoidal
-========================
+---
 
 ![Forma de onda senoidal](./img/sineosc-sinwaveform.png)
 
 Exemplo 2: Onda senoidal
-========================
+---
+
+![Cálculo da fase](./img/sineosc-phase.png)
+
+Exemplo 2: Onda senoidal
+---
 
 ![Definição de tabelas](./img/tables.png)
 
+Exemplo 2: Onda senoidal
+---
+
+![Forma de onda senoidal](./img/sineosc-freq.png)
+
 
 Exemplo 2: Onda senoidal
-========================
+---
 
 ~~~{.Javascript .numberLines}
 //-----------------------------------------------
@@ -176,8 +198,7 @@ PI    = 3.1415926535897932385;
 ~~~
 
 Exemplo 2: Onda senoidal
-========================
-
+---
 
 ~~~{.Javascript .numberLines}
 // Oscillator definition
@@ -193,7 +214,7 @@ osc(freq)   = phase(freq) : rdtable(tablesize,sinwaveform);
 ~~~
 
 Exemplo 2: Onda senoidal
-========================
+---
 
 ~~~{.Javascript .numberLines}
 // User interface
@@ -205,7 +226,7 @@ process = osc(freq) * vol;
 ~~~
 
 Exemplo 2: Onda senoidal
-========================
+---
 
 Demonstração:
 
@@ -213,6 +234,9 @@ Demonstração:
 
 Exemplo 3: freeverb
 ===================
+
+Exemplo 3: freeverb
+---
 
 ~~~{.Javascript .numberLines}
 monoReverb(fb1, fb2, damp, spread)  
@@ -233,7 +257,7 @@ monoReverb(fb1, fb2, damp, spread)
 ~~~
 
 Exemplo 3: freeverb
-===================
+---
 
 ~~~{.Javascript .numberLines}
 stereoReverb(fb1, fb2, damp, spread)
