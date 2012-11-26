@@ -5,8 +5,8 @@
 A linguagem
 ===========
 
-Faust - Functional AUdio STream
----
+FAUST - Functional AUdio STream
+-----------
 
   * É uma linguagem de especificação (de *processadores de sinais*).
   * Compilada: FAUST -> C++ -> binários executáveis.
@@ -16,94 +16,292 @@ Faust - Functional AUdio STream
   * Pode ser utilizado em diversas "arquiteturas".
   * Descreve um processador de sinais.
 
+IDE Experimental - FaustWorks
+----------------
 
-Operadores
----
+Requisitos:
 
-  * : (composição)
-  * , (paralelismo)
-  * ~
-  * <:
-  * :>
+  * Faust
+  * Qt4
 
-FaustWorks
-==========
+Download:
 
-FaustWorks
----
+* http://faust.grame.fr/
 
-FaustWorks é um IDE para a linguagem de programação dsp Faust.
+Instalação:
 
-Atenção: FaustWorks é altamente experimental.
+    $ qmake-qt4
+    $ make
 
-    git clone \
-    git://faudiostream.git.sourceforge.net/gitroot/faudiostream/FaustWorks
+Estrutura de um programa
+--------------------------------------
+
+Expressões:
+
+  * Bloco primitivo.
+  * Combinação de expressões via operadores de composição.
+  * Representa um diagrama de blocos.
+
+Definições:
+
+  * Identifiação de expressões:
+
+        nome_do_bloco = expressão ;
+
+  * O nome do bloco deve começar com letra, pode ter símbolos e '_'.
+
+Estrutura de um programa
+--------------------------------------
+
+![Definições em um diagrama de blocos](./img/4-1_process.png)
+
+Estrutura de um programa
+--------------------------------------
+
+Programa em Faust: sequência desordenada de definições.
+
+  * Apenas uma definição é obrigatória:
+
+    	process
+
+Comentários:
+
+  * Como em C/C++
+
+    	//, /* ... */
+
+Estrutura de um programa
+--------------------------------------
+
+Exemplo:
+
+~~~{.Javascript .numberLines}
+declare name "noise";
+declare copyright "(C)GRAME 2006";
+
+import("music.lib");
+
+// noise level controlled by a slider
+process = noise * vslider("volume", 0, 0, 1, 0.1);
+~~~
+
+A linguagem - Primitivas
+----------
+
+Blocos de conexão (plug boxes):
+
+  * Identidade (`_`).
+
+  ![Bloco identidade](./img/2-1-1_identity.png)
+
+  * Corte (`!`).
+
+  ![Bloco corte](./img/2-1-2_cut.png)
+
+A linguagem - Primitivas
+----------
+
+Operadores matemáticos:
+
+  * Aritméticos (`+, -, *, /` e `%`).
+
+  ![Blocos de operadores aritiméticos](./img/2-2_arithmetic.png)
+
+  * Comparação (`<=, >=, <, >, ==` e `!=`).
+
+A linguagem - Primitivas
+----------
+
+  * Operadores bit a bit (`<<, >>, &, |` e `^`).
+  * Constantes:
+    * Literais em C++
+    * int: '#', float: '#.#'
+
+    ![Constantes em Faust](./img/2-4_constants.png)
+
+A linguagem - Primitivas
+----------
+
+  * Conversões de tipo em Faust (casting):
+
+    ![Conversões de tipo em Faust](./img/2-5_casting.png)
+
+  * Funções estrangeiras:
+
+        ffunction(prototipo, include, biblioteca)
+
+Primitivas - Memórias
+----------
+
+![Atraso simples](./img/2-7-1_mem.png)
+
+Primitivas - Memórias
+----------
+
+  * Tabela somente de leitura
+
+  ![](./img/2-7-2_rdtable1.png)
+  ![rdtable durante a execução](./img/2-7-2_rdtable2.png)
+
+Primitivas - Memórias
+----------
+
+![Tabela de leitura e escrita](./img/2-7-3_rwtable.png)
 
 
+A linguagem - Primitivas
+----------
 
-Dependências para entender os exemplos
----
+![Chaves de seleção: select2 e select3](./img/2-8_select.png)
 
-* Açúcar sintático.
-* GUI: hslider, vslider, button.
-* nentry
+Primitivas - Interface gráfica com o usuário
+----------
+
+![Botão - \texttt{button("label")}](./img/2-9-1_button.png)
+
+Primitivas - Interface gráfica com o usuário
+----------
+
+![Checkbox: \texttt{checkbox("label")}](./img/2-9-2_checkbox.png)
+
+Primitivas - Interface gráfica com o usuário
+----------
+
+![Sliders: \texttt{ hslider("label", inicio, fim, max, passo)}](./img/2-9-3_sliders.png)
+
+Primitivas - Interface gráfica com o usuário
+----------
+
+![Entrada numérica: \texttt{nentry("label", inicio, fim, max, passo)}](./img/2-9-4_nentry.png)
+
+
+Primitivas - Interface gráfica com o usuário
+----------
+
+  * Grupos
+    hgroup, vgroup, tgroup
+
+  ![](./img/2-9-5_groups.png)
+
+    tgroup("Sliders", (A,B,C))
+
+
+A linguagem - Operadores de composição
+-----------------------
+
+  * Serial (`:`)
+
+![Operador serial](./img/3-1_serial1.png)
+
+A linguagem - Operadores de composição
+-----------------------
+
+* Serial (`:`)
+
+![Operador serial](./img/3-1_serial2.png)
+
+A linguagem - Operadores de composição
+-----------------------
+
+* Serial (`:`)
+
+![Operador serial](./img/3-1_serial3.png)
+
+A linguagem - Operadores de composição
+-----------------------
+
+* Paralelo (`,`)
+
+![Operador paralelo](./img/3-2_parallel.png)
+
+A linguagem - Operadores de composição
+-----------------------
+
+* Split (`<:`)
+
+![Operador split](./img/3-3_split1.png)
+
+A linguagem - Operadores de composição
+-----------------------
+
+* Split (`<:`)
+
+![Operador split](./img/3-3_split2.png)
+
+A linguagem - Operadores de composição
+-----------------------
+
+* Split (`<:`)
+
+![Operador split](./img/3-3_split3.png)
+
+A linguagem - Operadores de composição
+-----------------------
+
+* Merge (`:>`)
+
+![Operador merge](./img/3-4_merge.png)
+
+A linguagem - Operadores de composição
+-----------------------
+
+* Recursivo (`~`)
+
+![Operador recursivo](./img/3-5_recursive1.png)
+
+Operadores de composição
+-----------------------
+
+* Recursivo (`~`)
+
+![Operador recursivo](./img/3-5_recursive2.png)
+
+Precedência de operadores
+-------------------------
+
+![Precedência](./img/3-6_precedence1.png)
+
+Precedência de operadores
+-------------------------
+
+![Precedência](./img/3-6_precedence2.png)
+
+A linguagem - Abstrações
+----------
+
+![Abstrações](./img/4-3_abstraction.png)
+
+    A(x,y) = (x,y):(y,x)
+    B = ...
+    C = ...
+    D = A(B,C)
 
 Açúcar sintático
----
+----------------
 
 Operadores matemáticos podem ser usados de forma mais simples:
 
     A/B  = (A,B) : /
     /(A) = (_,A) : /
 
-Arquiteturas
----
+Exemplos
+========
 
-* Alsa + {GTK,QT}
-* Csound
-* iPhone
-* jack {GTK,QT}
-* Ladspa
-* lv2
-* Max MSP
-* Octave
-* OSS
-* Pure Data
-* VST
-* ... e muitas outras.
+Exemplo 1
+---------
 
-Faust na linha de comando
----
+Onda quadrada
 
-Algumas opções interessantes:
-
-    -tg     print the internal --task-graph in dot format file
-    -sg     print the internal --signal-graph in dot format file
-    -ps     print block-diagram --postscript file
-    -svg    print block-diagram --svg file
-    -mdoc   print --mathdoc of a Faust program in LaTeX format in a -mdoc directory
-    -vs <n> --vec-size <n> size of the vector (default 32 samples)
-    -omp    --openMP generate OpenMP pragmas, activates --vectorize option
-    -pl     --par-loop generate parallel loops in --openMP mode
-    -single use --single-precision-floats for internal computations (default)
-    -double use --double-precision-floats for internal computations
-    -quad   use --quad-precision-floats for internal computations
-    -norm   --normalized-form prints signals in normalized form and exits
-
-
-
-Exemplo 1: Onda quadrada
-========================
 
 Onda quadrada: blocos básicos
 -----------------------------
 
-![Um contador de 1 até N](./img/square-i.png)
+![Um contador de 0 até N-1](./img/square-i.png)
 
 Onda quadrada: blocos básicos
 -----------------------------
 
-![Gerador de onda quadrada.](./img/square-process.png) 
+![Gerador de onda quadrada.](./img/square-process.png)
 
 Onda quadrada: sliders
 ----------------------
@@ -133,9 +331,8 @@ Demonstração:
 
     ./square -cyclicratio 0.5 -n 44100 -period 100
 
-
 Exemplo 2: Onda senoidal
-========================
+------------------------
 
 Onda senoidal: blocos básicos
 -----------------------------
@@ -151,11 +348,6 @@ Onda senoidal: blocos básicos
 -----------------------------
 
 ![Cálculo da fase](./img/sineosc-phase.png)
-
-Onda senoidal: tabelas
------------------------------
-
-![Definição de tabelas](./img/tables.png)
 
 Onda senoidal: leitura de tabela
 --------------------------------
@@ -212,7 +404,7 @@ Demonstração:
     ./sineosc -freq 440 -n 44100 -volume 1
 
 Exemplo 3: Gerador de ruído aleatório
-=====================================
+-------------------------------------
 
 Gerador de ruído aleatório: código
 ----------------------------------
@@ -243,7 +435,7 @@ Gerador de ruído aleatório: demo
 Demonstração: comparação de gráficos e som.
 
 Exemplo 4: Karplus Strong
-=========================
+-------------------------
 
 Karplus Strong: demo
 --------------------
@@ -251,13 +443,13 @@ Karplus Strong: demo
 Demonstração: tosco e bem feito.
 
 Exemplo 5: Freeverb
-===================
+-------------------
 
-freeverb: código
+Freeverb: código
 ----------------
 
 ~~~{.Javascript .numberLines}
-monoReverb(fb1, fb2, damp, spread)  
+monoReverb(fb1, fb2, damp, spread)
 	= _ <:	comb(combtuningL1+spread, fb1, damp),
 			comb(combtuningL2+spread, fb1, damp),
 			comb(combtuningL3+spread, fb1, damp),
@@ -265,12 +457,12 @@ monoReverb(fb1, fb2, damp, spread)
 			comb(combtuningL5+spread, fb1, damp),
 			comb(combtuningL6+spread, fb1, damp),
 			comb(combtuningL7+spread, fb1, damp),
-			comb(combtuningL8+spread, fb1, damp) 
-		+>	
+			comb(combtuningL8+spread, fb1, damp)
+		+>
 		 	allpass (allpasstuningL1+spread, fb2)
 		:	allpass (allpasstuningL2+spread, fb2)
 		:	allpass (allpasstuningL3+spread, fb2)
-		:	allpass (allpasstuningL4+spread, fb2) 
+		:	allpass (allpasstuningL4+spread, fb2)
 		;
 ~~~
 
@@ -299,6 +491,22 @@ Outros exemplos
 * echo.
 * noise.
 * multiband-filter.
+
+Outras arquiteturas
+-------------------
+
+* Alsa + {GTK,QT}
+* Csound
+* iPhone
+* jack {GTK,QT}
+* Ladspa
+* lv2
+* Max MSP
+* Octave
+* OSS
+* Pure Data
+* VST
+* ... e muitas outras.
 
 Fim!
 ----
